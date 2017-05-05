@@ -38,18 +38,21 @@ def create_init_clusters(k):
 		val1 = sample[i]
 		val2 = sample[j-1]
 		init_clusters.append((val1[0][0] + val2[0][0], val1[0][1] + val2[0][1]))
-	init_clusters = sc.parallelize([[2, list(row), [pow(row[0], 2), pow(row[1], 2)], indx] for indx, row in enumerate(init_clusters)])
+	init_clusters = sc.parallelize([[2,
+									 list(row),
+									 [pow(row[0], 2), pow(row[1], 2)],
+									 indx] for indx, row in enumerate(init_clusters)]).keyBy(lambda arr: arr[-1])
 	return init_clusters
 
 def assign_cluster(p, type="euclidean"):
 	global clusters_loc
 	min_dist = float("inf")
 	assign_indx = None
-	for i, c in enumerate(clusters_loc):
-		cur_dist = mahalanobis_distance(p, c, type)
+	for c in clusters_loc:
+		cur_dist = mahalanobis_distance(p, c[1], type)
 		if cur_dist < min_dist:
 			min_dist = cur_dist
-			assign_indx = i
+			assign_indx = c[1][-1]
 	return p + [assign_indx]
 
 def mahalanobis_distance(p, c, type="euclidean"):
@@ -79,26 +82,40 @@ def reduce_points_to_cluster(points_list):
 	return cluster
 
 
+def add_clusters(c1, c2):
+	cluster = [0, [0, 0], [0, 0], c1[-1]]
+	cluster[0] = c1[0] + c2[0]
+	cluster[1][0] = c1[1][0] + c2[1][0]
+	cluster[1][1] = c1[1][1] + c2[1][1]
+	cluster[2][0] = c1[2][0] + c2[2][0]
+	cluster[2][1] = c1[2][1] + c2[2][1]
+	return cluster
+
 if __name__ == "__main__":
 	path = "/Users/Rishi/Downloads/sample_geo.txt"
 	data = get_data(path)
-	clusters = create_init_clusters(4)
+	clusters = create_init_clusters(20)
 	clusters_loc = clusters.collect()
+	print "**********"
+	for c in clusters_loc:
+		print c
+	print "**********"
 	n = data.count()
 	total = 0
 	other = 0
-	for i in range(0, n/2, 50):
-		part = data.mapPartitions(lambda it: islice(it, i, i+50)).map(lambda p: assign_cluster(p)).keyBy(lambda arr: arr[-1])
+	for i in range(0, 500, 10):
+		part = data.mapPartitions(lambda it: islice(it, i, i+10)).map(lambda p: assign_cluster(p)).keyBy(lambda arr: arr[-1])
+		classifications = part.groupByKey().map(lambda x: reduce_points_to_cluster(list(x[1]))).keyBy(lambda arr: arr[-1])
+		clusters = sc.union([clusters, classifications]).reduceByKey(lambda v1, v2: add_clusters(v1, v2))
+		clusters_loc = clusters.collect()
+		if i % 50 == 0:
+			print "**********"
+			for c in clusters_loc:
+				print c
+			print "**********"
 
-		classifications = part.groupByKey().map(lambda x: reduce_points_to_cluster(list(x[1])))
-		print(classifications.collect())
-		other += classifications.count()
-		total += part.count()
-
-		# classifications = part.reduceByKey(lambda p1, p2 : ( ))
-
-		# print part.collect()[0:10]
-		# print "********"
 	print total
 	print other
 	print n
+
+
