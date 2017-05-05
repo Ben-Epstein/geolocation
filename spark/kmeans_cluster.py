@@ -2,6 +2,9 @@ import sys
 from itertools import islice
 import findspark
 from haversine import haversine
+import matplotlib.pyplot as plt
+from matplotlib.patches import Ellipse
+import numpy.random as rnd
 
 findspark.init()
 import pyspark
@@ -91,31 +94,51 @@ def add_clusters(c1, c2):
 	cluster[2][1] = c1[2][1] + c2[2][1]
 	return cluster
 
+def update(i):
+	global clusters_loc, ax
+	ellipses = [Ellipse(xy=[row[1][1][0]/row[1][0], row[1][1][1]/row[1][0]],
+						width=pow(row[1][2][0]/row[1][0], .5)/10,
+						height=pow(row[1][2][1]/row[1][0], .5)/10,
+						label="Count: " + str(row[1][0])
+						) for row in clusters_loc]
+
+	for e in ellipses:
+		ax.add_artist(e)
+		e.set_clip_box(ax.bbox)
+		e.set_facecolor(rnd.rand(3))
+
+	# data = {"label": [row[0] for row in clusters_loc],
+	# 		"count": [row[1][0] for row in clusters_loc],
+	# 		"longitude": [row[1][1][0]/row[1][0] for row in clusters_loc],
+	# 		"latitude": [row[1][1][1]/row[1][0] for row in clusters_loc],
+	# 		"width": [pow(row[1][2][0]/row[1][0], .5)/10 for row in clusters_loc],
+	# 		"height": [pow(row[1][2][1]/row[1][0], .5)/10 for row in clusters_loc]
+	# }
+	# return data
+
 if __name__ == "__main__":
 	path = "/Users/Rishi/Downloads/sample_geo.txt"
 	data = get_data(path)
-	clusters = create_init_clusters(20)
+	clusters = create_init_clusters(4)
 	clusters_loc = clusters.collect()
-	print "**********"
-	for c in clusters_loc:
-		print c
-	print "**********"
-	n = data.count()
-	total = 0
-	other = 0
-	for i in range(0, 500, 10):
+	print str(clusters_loc)
+	fig, ax = plt.subplots()
+	fig.set_tight_layout(True)
+
+	plt.show()
+
+	for i in range(0, 500, 25):
+
 		part = data.mapPartitions(lambda it: islice(it, i, i+10)).map(lambda p: assign_cluster(p)).keyBy(lambda arr: arr[-1])
 		classifications = part.groupByKey().map(lambda x: reduce_points_to_cluster(list(x[1]))).keyBy(lambda arr: arr[-1])
 		clusters = sc.union([clusters, classifications]).reduceByKey(lambda v1, v2: add_clusters(v1, v2))
 		clusters_loc = clusters.collect()
-		if i % 50 == 0:
-			print "**********"
-			for c in clusters_loc:
-				print c
-			print "**********"
+		print str(clusters_loc)
 
-	print total
-	print other
-	print n
+		# if i % 50 == 0:
+		# 	plt = rdd_to_mpl(clusters_loc)
+		# 	plt.show()
+
+
 
 
