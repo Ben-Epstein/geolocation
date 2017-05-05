@@ -3,7 +3,7 @@ from bokeh.plotting import figure
 from bokeh.layouts import layout
 from bokeh.models import ColumnDataSource, Range1d,  Slider, HoverTool
 from bokeh.models.glyphs import Ellipse, Circle
-from bokeh.io import curdoc, show
+from bokeh.io import curdoc, show, output_file
 
 with open("output/sample_clusters.json", "r") as f:
 	cluster_hist = json.load(f)
@@ -40,5 +40,6 @@ def update(attr, old, new):
 
 iter_slider.on_change("value", update)
 
-
-curdoc().add_root(layout([[kmeans_viz,iter_slider]]))
+output_file("sample_clusters_visualization.html", title='K-Means Visualization', mode='cdn')
+show(layout([[kmeans_viz, iter_slider]]))
+# curdoc().add_root(layout([[kmeans_viz,iter_slider]]))
