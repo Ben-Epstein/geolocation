@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://localhost:5006/kmeans_bokeh -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <title>Bokeh Application</title>
+        
+<link rel="stylesheet" href="./sample_cluster_viz_files/bokeh.min.css" type="text/css">
+<link rel="stylesheet" href="./sample_cluster_viz_files/bokeh-widgets.min.css" type="text/css">
+        
+<script type="text/javascript" src="./sample_cluster_viz_files/bokeh.min.js"></script>
+<script type="text/javascript" src="./sample_cluster_viz_files/bokeh-widgets.min.js"></script>
+<script type="text/javascript">
+    Bokeh.set_log_level("info");
+</script>
+        <style>
+          html {
+            width: 100%;
+            height: 100%;
+          }
+          body {
+            width: 90%;
+            height: 100%;
+            margin: auto;
+          }
+        </style>
+    </head>
+    <body>
+        
+        <div class="bk-root">
+            <div class="bk-plotdiv" id="98f99ae6-ae8c-4655-9ad6-1daa5f955cdb"><div class="bk-grid-column bk-layout-fixed" id="modelid_91cbd555-a2af-41ae-9790-7476968fb17c" style="width: 900px; height: 600px;"><div class="bk-grid-row bk-layout-fixed" id="modelid_fa77bfb1-8ca1-45fb-b3c8-d54f947f5669" style="width: 900px; height: 600px;"><div class="bk-plot-layout bk-layout-fixed" id="modelid_ee70fed1-30ff-42b2-a409-88bb61444fa2" style="width: 600px; height: 600px;"><div class="bk-toolbar-wrapper bk-layout-null" id="modelid_524d3b61-b0a7-4d5f-9272-c66149a068cd" style="left: 0px; top: 0px; width: 595px; height: 30px;"><div class="bk-toolbar-above bk-toolbar-not-sticky"><a href="http://bokeh.pydata.org/" target="_blank" class="bk-logo bk-logo-small"></a><div class="bk-button-bar"><div class="bk-button-bar-list" type="pan"><div class="bk-toolbar-button bk-active"><div class="bk-btn-icon bk-tool-icon-pan"></div><span class="bk-tip">Pan</span></div><div class="bk-toolbar-button"><div class="bk-btn-icon bk-tool-icon-box-zoom"></div><span class="bk-tip">Box Zoom</span></div></div><div class="bk-button-bar-list" type="scroll"><div class="bk-toolbar-button"><div class="bk-btn-icon bk-tool-icon-wheel-zoom"></div><span class="bk-tip">Wheel Zoom</span></div></div><div class="bk-button-bar-list" type="pinch"></div><div class="bk-button-bar-list" type="tap"></div><div class="bk-button-bar-list" type="press"></div><div class="bk-button-bar-list" type="rotate"></div><div class="bk-button-bar-list" type="actions"><div class="bk-toolbar-button"><div class="bk-btn-icon bk-tool-icon-reset"></div><span class="bk-tip">Reset</span></div><div class="bk-toolbar-button"><div class="bk-btn-icon bk-tool-icon-save"></div><span class="bk-tip">Save</span></div></div><div class="bk-button-bar-list" type="inspectors"><div class="bk-toolbar-button bk-active"><div class="bk-btn-icon bk-tool-icon-hover"></div><span class="bk-tip">Hover</span></div></div><div class="bk-button-bar-list" type="help"></div></div></div></div><div class="bk-plot-wrapper" style="position: absolute; left: 0px; top: 30px; width: 600px; height: 570px;"><div class="bk-canvas-wrapper" style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); cursor: crosshair; width: 600px; height: 570px;"><div class="bk-canvas-events"></div><div class="bk-canvas-overlays"><div class="bk-shading" style="display: none;"></div><div class="bk-tooltip" style="z-index: 1010; display: none;"></div><div class="bk-tooltip bk-tooltip-arrow bk-right" style="z-index: 1010; top: 327px; left: 229.818px; display: none;"></div></div><canvas class="bk-canvas" width="1320.0000286102295" height="1254.000027179718" style="width: 600px; height: 570px;"></canvas></div></div></div><div class="bk-widget-box bk-layout-fixed" id="modelid_0d60d2c0-5a6f-4215-9054-6e1b7c8fc159" style="width: 280px;"><div class="bk-widget bk-layout-fixed" id="modelid_4191a241-7f4b-4608-918c-1fde8c577a12"><div class="bk-slider-parent"><label for="4191a241-7f4b-4608-918c-1fde8c577a12"> Iteration: </label><input type="text" id="4191a241-7f4b-4608-918c-1fde8c577a12" readonly="true"><div class="bk-slider-horizontal"><div class="slider bk-ui-slider bk-ui-slider-horizontal bk-ui-widget bk-ui-widget-content bk-ui-corner-all ui-slider-horizontal" id="4191a241-7f4b-4608-918c-1fde8c577a12" aria-disabled="false"><a class="bk-ui-slider-handle bk-ui-state-default bk-ui-corner-all ui-state-focus" href="http://localhost:5006/kmeans_bokeh#" style="left: 100%;"></a></div></div></div></div></div></div></div></div>
+        </div>
+        
+        <script type="text/javascript">
+            (function() {
+          var fn = function() {
+            Bokeh.safely(function() {
+              var docs_json = {};
+              var render_items = [{"elementid":"98f99ae6-ae8c-4655-9ad6-1daa5f955cdb","sessionid":"aF5TylFeDoHNF0DRVYG4JM4aQwJC4vYdAnhJCXiWUDaG","use_for_title":true}];
+              
+              Bokeh.embed.embed_items(docs_json, render_items, "ws://localhost:5006/kmeans_bokeh/ws");
+            });
+          };
+          if (document.readyState != "loading") fn();
+          else document.addEventListener("DOMContentLoaded", fn);
+        })();
+        
+        </script>
+    
+</body></html>
