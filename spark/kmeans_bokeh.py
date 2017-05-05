@@ -40,6 +40,6 @@ def update(attr, old, new):
 
 iter_slider.on_change("value", update)
 
-output_file("sample_clusters_visualization.html", title='K-Means Visualization', mode='cdn')
+# output_file("sample_clusters_visualization.html", title='K-Means Visualization', mode='inline')
 show(layout([[kmeans_viz, iter_slider]]))
-# curdoc().add_root(layout([[kmeans_viz,iter_slider]]))
+curdoc().add_root(layout([[kmeans_viz,iter_slider]]))
